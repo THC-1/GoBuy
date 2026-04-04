@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: var(--el-color-primary);
+  --color-success: var(--el-color-success);
+  --color-warning: var(--el-color-warning);
+  --color-danger: var(--el-color-danger);
+  --color-info: var(--el-color-info);
+  
+  --color-earth-100: #f5f3ef;
+  --color-earth-200: #e8e3d9;
+  --color-earth-300: #d4cbb8;
+  --color-earth-400: #b5a58c;
+  --color-earth-500: #968366;
+  --color-earth-600: #7a684e;
+  --color-earth-700: #60513d;
+  --color-earth-800: #4a3e2f;
+  --color-earth-900: #362d22;
+
+  --color-morandi-blue: #8ba3a6;
+  --color-morandi-green: #9ca894;
+  --color-morandi-pink: #c8b8b3;
+  --color-morandi-gray: #a6a39f;
+}
+
+:root {
+  /* Element Plus Theme overrides for natural elegant style */
+  --el-color-primary: #968366;
+  --el-color-primary-light-3: #b5a58c;
+  --el-color-primary-light-5: #d4cbb8;
+  --el-color-primary-light-7: #e8e3d9;
+  --el-color-primary-light-8: #f0ece5;
+  --el-color-primary-light-9: #f5f3ef;
+  --el-color-primary-dark-2: #7a684e;
+
+  /* Basic UI colors */
+  --el-color-success: #9ca894;
+  --el-color-warning: #c8b8b3;
+  --el-color-danger: #d99a8b;
+  --el-color-info: #a6a39f;
+
+  /* Background colors */
+  --el-bg-color: #fbfaf8;
+  --el-bg-color-page: #f5f3ef;
+  --el-bg-color-overlay: #ffffff;
+
+  /* Text colors */
+  --el-text-color-primary: #4a3e2f;
+  --el-text-color-regular: #60513d;
+  --el-text-color-secondary: #7a684e;
+  --el-text-color-placeholder: #b5a58c;
+
+  /* Border colors */
+  --el-border-color: #d4cbb8;
+  --el-border-color-light: #e8e3d9;
+  --el-border-color-lighter: #f0ece5;
+  --el-border-color-extra-light: #f5f3ef;
+  
+  /* Disable purple explicitly */
+  /* No purple colors are defined, strictly adhering to earth and morandi tones */
+}
+
+body {
+  margin: 0;
+  background-color: var(--el-bg-color-page);
+  color: var(--el-text-color-primary);
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+}
