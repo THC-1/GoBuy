@@ -1,24 +1,64 @@
-# Compiled class file
+# ==================================
+# 1. Vue 前端部分 (Node)
+# ==================================
+# 依赖包（绝对不能传！）
+node_modules/
+/node_modules
+
+# Vue 构建打包产物
+dist/
+dist-ssr/
+
+# 本地环境变量文件（包含本地配置或敏感密钥）
+.env.local
+.env.*.local
+
+# npm/yarn/pnpm 产生的错误日志
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 编辑器产生的本地历史记录
+.local
+
+# ==================================
+# 2. Spring Boot 后端部分 (Java)
+# ==================================
+# 编译后的 class 文件
 *.class
 
-# Log file
-*.log
+# Maven 编译输出目录（绝对不能传！）
+target/
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
+# 打包生成的 jar/war 包
 *.jar
 *.war
-*.nar
 *.ear
 *.zip
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# 运行时产生的日志文件
+*.log
+
+# ==================================
+# 3. IDE 及开发工具配置 (非常重要)
+# ==================================
+# IntelliJ IDEA (后端常用)
+.idea/
+*.iml
+*.iws
+
+# Visual Studio Code (前端常用)
+.vscode/*
+
+# ==================================
+# 4. 操作系统产生的隐藏文件
+# ==================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
