@@ -1,0 +1,121 @@
+# Tasks
+
+- [x] Task 1: 后端项目初始化与基础设施搭建
+  - [x] 1.1 更新 pom.xml 添加依赖（MyBatis-Plus 3.5.5、MySQL驱动、jjwt 0.12.3、Spring Security、Lombok、Spring Data Redis）
+  - [x] 1.2 创建 application.yml 配置文件（datasource、redis、mybatis-plus、jwt配置项）
+  - [x] 1.3 创建后端标准包结构（config/controller/service/entity/mapper/dto/common/util）
+  - [x] 1.4 实现统一响应包装类 Result<T> 和 ResultCode 枚举
+  - [x] 1.5 实现 BusinessException 业务异常类和 GlobalExceptionHandler 全局异常处理器
+  - [x] 1.6 实现 WebConfig（CORS跨域配置）
+  - [x] 1.7 实现 JwtUtil 工具类（生成/解析/验证Token，Access Token 2h / Refresh Token 7d）
+  - [x] 1.8 实现 JwtConfig 配置属性类
+  - [x] 1.9 实现 SecurityConfig（放行公开接口：/api/v1/auth/**）
+
+- [x] Task 2: 用户模块数据库与后端API实现
+  - [x] 2.1 在项目根目录 `sql/` 文件夹下创建 `01_create_user_table.sql`（id/username/email/password/nickname/avatar_url/status/last_login_time/created_at/updated_at/deleted），文件头注释说明用途，由用户自行执行
+  - [x] 2.2 创建 User 实体类（@TableName @TableLogic等注解，遵循用户命名规则）
+  - [x] 2.3 创建 UserMapper 接口（继承 BaseMapper<User>）
+  - [x] 2.4 创建 DTO 类：RegisterRequest（@Validated校验注解）、LoginRequest
+  - [x] 2.5 创建 VO 类：LoginVO（accessToken/refreshToken/expiresIn/user）、UserVO
+  - [x] 2.6 创建 AuthService 接口及 AuthServiceImpl 实现类
+    - [x] 2.6.1 register() 方法：参数校验 → 查重(username/email) → BCrypt加密密码 → 保存用户 → 生成双Token返回
+    - [x] 2.6.2 login() 方法：根据account查询(邮箱或用户名) → 校验密码BCrypt → 校验状态 → 更新lastLoginTime → 生成双Token返回
+    - [x] 2.6.3 refreshToken() 方法：验证RefreshToken → 生成新Token对返回
+    - [x] 2.6.4 getCurrentUser() 方法：从SecurityContext获取userId → 查询用户 → 转换为UserVO返回
+    - [x] 2.6.5 logout() 方法：清除Token缓存
+  - [x] 2.7 创建 AuthController 控制器（POST /api/v1/auth/register、POST /api/v1/auth/login、POST /api/v1/auth/refresh-token、GET /api/v1/users/me、POST /api/v1/auth/logout）
+  - [x] 2.8 自检：防御性编程（null检查、异常不吞噬、空集合代替null、日志规范、事务边界正确）
+
+- [x] Task 3: 前端项目初始化与基础架构搭建
+  - [x] 3.1 安装前端依赖（element-plus @element-plus/icons-vue tailwindcss @tailwindcss/vite axios @vueuse/core）
+  - [x] 3.2 配置 Tailwind CSS v4（vite.config.ts 插件、src/styles/index.css @theme色彩体系）
+  - [x] 3.3 配置 Element Plus 主题覆盖（CSS变量覆盖：主色/背景/文字/边框/圆角，见设计风格§3.4完整变量列表）
+  - [x] 3.4 创建全局样式入口文件（字体排印系统、滚动条、选中文字、focus可见性、减少动效偏好，见设计风格§十二完整CSS）
+  - [x] 3.5 创建 TypeScript 类型定义文件（types/product.ts、types/user.ts、types/api.ts）
+  - [x] 3.6 创建 Axios 封装实例（baseURL配置、请求拦截器注入Token、响应拦截器解包+401自动刷新+错误Toast、响应数据泛型解包）
+  - [x] 3.7 创建 API 请求模块（api/auth.ts：login/register/refreshToken/getUserInfo/logout）
+
+- [x] Task 4: 前端状态管理与路由守卫
+  - [x] 4.1 创建 Pinia user Store（stores/user.ts）：State(token/refreshToken/userInfo/isLoggedIn)、Actions(login/register/logout/fetchUserInfo/refreshToken/loadFromStorage)、Token存储策略（内存+localStorage备份）
+  - [x] 4.2 配置 Vue Router 路由（/login、/ 首页嵌套ClientLayout含HomeView、/product/:id嵌套ProductDetailView），meta.requiresAuth标记
+  - [x] 4.3 实现全局路由守卫（beforeEach：未登录跳转login带redirect参数、已登录访问login重定向首页）
+  - [x] 4.4 在 main.ts 中注册 Pinia store 和 Element Plus
+
+- [x] Task 5: 登录注册页面实现
+  - [x] 5.1 创建 LoginView.vue 页面视图（min-h-screen bg-lumina-100 pt-14 居中布局）
+  - [x] 5.2 实现 AuthForm 组件核心逻辑：
+    - [x] 5.2.1 isLogin 状态切换（登录/注册模式）
+    - [x] 5.2.2 登录模式字段：account + password（带可见性切换）+ rememberMe
+    - [x] 5.2.3 注册模式字段：username + email + password + confirmPassword
+    - [x] 5.2.4 Element Plus Form Rules 校验规则（blur+change触发，各字段规则见一期工程§2.5.2校验规则明细表）
+    - [x] 5.2.5 提交按钮 loading 状态 + 错误消息 ElMessage 提示
+  - [x] 5.3 样式严格遵循 Lumina 设计风格§6.6（卡片rounded-2xl弥散阴影、输入框rounded-xl bg-lumina-50、按钮rounded-xl深色背景+投影、分割线h-px bg-lumina-200）
+  - [x] 5.4 社交登录占位区域（微信登录/Apple登录按钮，一期静态展示）
+  - [x] 5.5 底部登录/注册切换链接
+
+- [x] Task 6: 全局布局组件实现（Header + Footer + ClientLayout）
+  - [x] 6.1 创建 ClientLayout.vue（固定Header + RouterView + Footer，pt-14为Header留空间）
+  - [x] 6.2 实现 AppHeader.vue：
+    - [x] 6.2.1 固定顶部 fixed top-0 z-50 h-14，默认透明滚动后毛玻璃效果（bg-transparent → bg-lumina-100/80 backdrop-blur-xl，duration-500）
+    - [x] 6.2.2 Logo文字"Lumina."（font-semibold tracking-tight text-lumina-800）
+    - [x] 6.2.3 导航链接数组（首页/商品/关于/支持），text-xs font-medium tracking-wide，当前页高亮+钛金属色下划线动画
+    - [x] 6.2.4 右侧操作区：搜索图标（静态）、购物袋图标（数量徽章一期固定0）、用户头像/登录按钮（根据isLoggedIn切换）
+    - [x] 6.2.5 移动端汉堡菜单图标（md:hidden显示）
+  - [x] 6.3 实现 MobileMenuDrawer.vue（右侧滑出w-72抽屉，遮罩bg-lumina-950/40 backdrop-blur-sm，导航列表+登录/注册按钮）
+  - [x] 6.4 实现 AppFooter.vue（bg-lumina-900深色背景，4列grid链接区+版权声明，严格遵循设计风格§5.2.C代码实现）
+  - [x] 6.5 Header滚动监听使用 useScroll (VueUse)
+
+- [x] Task 7: 首页实现（Hero + Bento Grid + 特色服务横幅）
+  - [x] 7.1 创建 HomeView.vue 页面视图（组合各区块组件）
+  - [x] 7.2 实现 HeroSection.vue：
+    - [x] 7.2.1 h-[85vh] min-h-[600px] bg-lumina-950 渐变背景（#0a0a0a → #121214 → #1a1a1c）
+    - [x] 7.2.2 标题组居中：大标题text-5xl~8xl font-bold text-white tracking-tight leading-1.05 + 副标题text-white/70
+    - [x] 7.2.3 CTA按钮组：白底主按钮（rounded-full hover:bg-lumina-100 active:scale-95）+描边次按钮
+    - [x] 7.2.4 产品浮动图：drop-shadow-[0_20px_60px_rgba(0,0,0,0.5)] + hero-float关键帧动画（±10px 6s infinite ease-in-out）
+    - [x] 7.2.5 staggered入场动画（fade-in-up，延迟0/200/400ms，cubic-bezier(0.16,1,0.3,1)）
+    - [x] 7.2.6 底部滚动弹跳指示器
+  - [x] 7.3 实现 BentoGridSection.vue：
+    - [x] 7.3.1 grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[280px] 不对称网格
+    - [x] 7.3.2 大区块 col-span-2 row-span-2 rounded-3xl（渐变背景+光晕+产品图hover scale-105 duration-700）
+    - [x] 7.3.3 小区块 1x1 rounded-3xl（白色或暗色变体，图片hover -translate-y-2）
+    - [x] 7.3.4 横向区块 col-span-2（图文并排布局）
+    - [x] 7.3.5 严格遵循设计风格§6.1.B完整代码实现
+  - [x] 7.4 实现 ProductCard.vue 可复用组件（aspect-square图片+分类标签+名称line-clamp-2+价格+原价删除线+加购圆形按钮，悬停上浮+阴影+缩放）
+  - [x] 7.5 实现 FeatureStrip.vue（四宫格服务横幅：免费配送/正品保障/售后无忧/分期免息，圆形图标容器+hover变色）
+  - [x] 7.6 创建首页 Mock 数据（mock/home.ts：HeroData接口 + ProductCardData数组[6-8个商品]）
+
+- [x] Task 8: 商品详情页实现
+  - [x] 8.1 创建 ProductDetailView.vue 主视图（Dark/Light交替区块组装）
+  - [x] 8.2 实现 BreadcrumbNav.vue 面包屑组件（首页 > 分类 > 商品名，text-xs text-lumina-400）
+  - [x] 8.3 实现 ProductGallery.vue 产品画廊：
+    - [x] 8.3.1 主图容器 aspect-square rounded-3xl overflow-hidden bg-lumina-900
+    - [x] 8.3.2 缩略图列表横向排列 w-16 h-16 rounded-xl，选中态border-white，默认透明opacity-60
+    - [x] 8.3.3 点击缩略图切换主图联动
+  - [x] 8.4 实现 SkuSelector.vue SKU选择器可复用组件：
+    - [x] 8.4.1 接收 skuGroups: SkuGroup[] prop，每组渲染 label + option胶囊按钮
+    - [x] 8.4.2 选中态 border-white bg-white text-lumina-950 反色高亮
+    - [x] 8.4.3 未选中 border-white/20 text-white/80，禁用 opacity-30 cursor-not-allowed
+    - [x] 8.4.4 形状 rounded-full padding px-5 py-2.5 text-sm
+  - [x] 8.5 实现 QuantitySelector.vue 数量选择器可复用组件（圆形边框加减按钮+数字输入，隐藏原生spinner，边界值处理）
+  - [x] 8.6 实现 ProductInfoPanel.vue（整合面包屑+名称+副标题+价格+SkuSelector+QuantitySelector+CTA按钮组，暗色背景区块内）
+  - [x] 8.7 实现 StickyBuyBar.vue 吸顶购买栏（fixed top-14 z-40 bg-white/95 backdrop-blur-lg，slide-down过渡动画300ms）
+  - [x] 8.8 实现 FeatureSection.vue 亮点介绍区（bg-lumina-100三列网格，icon容器64x64 rounded-2xl）
+  - [x] 8.9 实现 SpecSection.vue 技术参数表（bg-lumina-900 divide-y divide-white/10 Key-Value布局）
+  - [x] 8.10 创建详情页 Mock 数据（mock/product.ts：完整ProductDetailVO数据，含4-5张图+2-3组SKU+3个亮点+10-15条参数）
+  - [x] 8.11 滚动吸顶逻辑：使用 useScroll 监听滚动位置，超过首屏高度后 showStickyBar=true
+
+- [x] Task 9: 联调验证与收尾
+  - [x] 9.1 前端TypeScript类型检查通过（vue-tsc --noEmit exit code 0）
+  - [x] 9.2 项目文件完整性验证：后端19个Java文件+前端31个Vue/TS文件+SQL脚本+配置文件全部就位
+  - [x] 9.3 设计还原度自检：所有组件严格遵循Lumina数码商城设计风格.md
+  - [x] 9.4 代码质量自检：SRP/DRY/Fail-Fast/防御性编程/命名规范/依赖注入全部符合要求
+
+# Task Dependencies
+- [Task 2] depends on [Task 1]
+- [Task 3] 无依赖（可与Task 1并行）
+- [Task 4] depends on [Task 3]
+- [Task 5] depends on [Task 3, Task 4]
+- [Task 6] depends on [Task 3]
+- [Task 7] depends on [Task 3, Task 6]
+- [Task 8] depends on [Task 3, Task 6]
+- [Task 9] depends on [Task 2, Task 5, Task 7, Task 8]
